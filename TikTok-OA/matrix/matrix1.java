@@ -10,6 +10,9 @@ char[][] solution(char[][] matrix) {
 						minFall = Math.min(minFall, fall);
 						break;
 					}
+					if (k == m - 1) {
+						minFall = Math.min(minFall, m - 1 - i);
+					}
 				}
 			}
 		}
