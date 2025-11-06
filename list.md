@@ -9,16 +9,18 @@ data structure:
 
 Recursion:
 - Quick Sort
-- N queens
 - Path sum
+- Longest zigzag path in binary tree
 
 Binary Tree:
 - LCA
 
 BFS:
 - Print the tree level by level in a zig-zag way
+- Walls and gates
 
 DFS:
+- N queens
 - All combinations of coins that sum up to target
 - All permutations of a string with no duplciate letters
 
@@ -30,6 +32,7 @@ DP:
 - Edit distance
 
 Graph:
+- Maze
 - Topological
 - Course schedule
 
