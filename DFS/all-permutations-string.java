@@ -60,3 +60,32 @@ private void dfs(char[] chars, boolean[] visited, StringBuilder s, List<Stirng> 
     visited[i] = false;
   }
 }
+
+/* Better solution */
+public List<String> permutations(String input) {
+  List<String> ans = new ArrayList<>();
+  if (input == null) {
+    return ans;
+  }
+  char[] chars = input.toCharArray();
+  dfs(chars, 0, ans);
+  return ans;
+}
+
+private void dfs(char[] chars, int index, List<String> ans) {
+  if (index == chars.length) {
+    ans.add(new String(chars));
+    return;
+  }
+  for (int i = index; i < chars.length; i++) {
+    swap(chars, index, i);
+    dfs(chars, index + 1, ans);
+    swap(chars, index, i);
+  }
+}
+
+private void swap(char[] arr, int i, int j) {
+  char temp = arr[i];
+  arr[i] = arr[j];
+  arr[j] = temp;
+}
