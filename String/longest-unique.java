@@ -1,28 +1,57 @@
-/* Given a string, returns the length of the longest substring without duplicate characters. */
-public int longestUnique(String input) {
+/* Given a string, find the longest substring without any repeating characters, 
+ * return the length of it.
+ */
+public int longest(String input) {
 	if (input == null || input.length() == 0) {
 		return 0;
 	}
 	int n = input.length();
-	int maxCount = 0;
-	int i = 0, j = 0;
-	Set<Character> occur = new HashSet<>();
-	while (j < n) {
-		char c = input.charAt(j);
-		if (!occur.contains(c)) {
-			occur.add(c);
-			count++;
-			j++;
+	int longest = 0;
+	int left = 0, right = 0;
+	Set<Character> exist = new HashSet<>();
+	while (right < n) {
+		char c = input.charAt(right);
+		if (!exist.contains(c)) {
+			exist.add(c);
 		} else {
-			maxCount = Math.max(maxCount, j - i);
-			while (input.charAt(i) != c) {
-				occur.remove(input.charAt(i));
-				i++;
+			while (input.charAt(left) != c) {
+				exist.remove(input.charAt(left++));
 			}
-			i++;
-			j++;
+			left++;
 		}
+		longest = Math.max(longest, right - left + 1);
+		right++;
 	}
-	maxCount = Math.max(maxCount, j - i);
-	return maxCount;
+	return longest;
 }
+/* TC: O(n)
+ * SC: O(n) in worst case
+ */
+
+/* Another solution that saves memory
+ * Assumption: all the characters in input are lowercase alphabetic
+ */
+public int longest(String input) {
+	if (input == null || input.length() == 0) {
+		return 0;
+	}
+	int n = input.length();
+	int[] freq = new int[26];
+	int left = 0, right = 0;
+	int longest = 0;
+	while (right < n) {
+		char c = input.charAt(right);
+		if (freq[c - 'a'] > 0) {
+			while (input.charAt(left) != c) {
+				freq[input.charAt(left++) - 'a']--;
+			}
+			left++;
+		}
+		longest = Math.max(longest, right - left + 1);
+		right++;
+	}
+	return longest;
+}
+/* TC: O(n)
+ * SC: O(1)
+ */
