@@ -46,6 +46,8 @@ public int longest(String input) {
 				freq[input.charAt(left++) - 'a']--;
 			}
 			left++;
+		} else {
+			freq[c - 'a']++;
 		}
 		longest = Math.max(longest, right - left + 1);
 		right++;

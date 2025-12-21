@@ -52,3 +52,45 @@ public class Solution {
     return true;
   }
 }
+
+
+/* Given an array of integers, how to divide it into 2 arrays, 
+ * with their sum equal to each other.
+ */
+public List<List<Integer>> equalSum(int[] array) {
+  List<List<Integer>> ans = new ArrayList<>();
+  int sum = 0;
+  for (int num : array) {
+    sum += num;
+  }
+  List<Integer> indices = new ArrayList<>();
+  dfs(array, 0, sum / 2, new ArrayList<>(), part1);
+  List<Integer> part1 = new ArrayList<>();
+  List<Integer> part2 = new ArrayList<>();
+  int curr = 0;
+  for (int i = 0; i < array.length; i++) {
+    if (curr < indices.size() && i == indices.get(curr)) {
+      part1.add(array[i]);
+      curr++;
+    } else {
+      part2.add(array[i]);
+    }
+  }
+  ans.add(part1);
+  ans.add(part2);
+  return ans;
+}
+
+private void dfs(int[] array, int index, int target, List<Integer> part, List<Integer> indices) {
+  if (target == 0) {
+    indices = new ArrayList<>(part);
+    return;
+  }
+  if (index == array.length) {
+    return;
+  }
+  part.add(index);
+  dfs(array, index + 1, target - array[index], part, ans);
+  part.remove(part.size() - 1);
+  dfs(array, index + 1, target, part, ans);
+}
