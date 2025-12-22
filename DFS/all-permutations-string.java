@@ -89,3 +89,44 @@ private void swap(char[] arr, int i, int j) {
   arr[i] = arr[j];
   arr[j] = temp;
 }
+
+/* Given a string with duplicate letters,
+ * print out all permutations of the string.
+ */
+public List<String> permutations(String input) {
+  List<String> ans = new ArrayList<>();
+  if (input == null || input.length() == 0) {
+    return ans;
+  }
+  Map<Character, Integer> count = new HashMap<>();
+  for (char c : input.toCharArray()) {
+    count.put(c, count.getOrDefault(c, 0) + 1);
+  }
+  int n = input.length();
+  dfs(count, 0, n, new StringBuilder(), ans);
+  return ans;
+}
+
+private void dfs(Map<Character, Integer> count, int index, int n, StringBuilder s, List<String> ans) {
+  if (index == n) {
+    ans.add(s.toString());
+    return;
+  }
+  Iterator<Character> iter = count.keySet().iterator();
+  while (iter.hasNext()) {
+    char c = iter.next();
+    if (count.get(c) == 0) {
+      continue;
+    } else {
+      count.put(c, count.get(c) - 1);
+    }
+    s.append(c);
+    dfs(count, index + 1, n, s, ans);
+    s.deleteCharAt(s.length() - 1);
+    count.put(c, count.get(c) + 1);
+  }
+}
+
+/* TC: O(K^m), K is the total number of permutations, m is the number of unique chars in input
+ * SC: O(n)
+ */
