@@ -43,3 +43,19 @@ private ReturnValue helper(TreeNode root) {
 	int currHeight = Math.max(leftVal.height - rightVal.height) + 1;
 	return new ReturnValue(currBalanced, currHeight);
 }
+
+/* Another solution: getHeightOrNotBalanced */
+private int getHeightOrBalanced(TreeNode root) {
+	if (root == null) {
+		return 0;
+	}
+	int left = getHeightOtNotBalanced(root.left);
+	int right = getHeightOtNotBalanced(root.right);
+	if (left == -1 || right  == -1) {
+		return -1;
+	}
+	if (Math.abs(left - right) > 1) {
+		return -1;
+	}
+	return Math.max(left, right) + 1;
+}
