@@ -42,3 +42,22 @@ Greedy:
 
 Others:
 - LRU cache
+
+Real Interview Questions:
+- LCA (retrieve the paths)
+    - retrieve the paths
+    - massive tree, nodes in external system, millions of nodes, how to prevent duplicate visits / stack overflow, use parent pointer to increase efficiency
+    - reduce rpc calling in distributed system
+    - caching mechanism
+    - lazy loading
+- event sequence with timestamps (TikTok OA)
+- two sum with duplicates
+    - in O(n) time
+    - what if given a sorted array
+- longest non-repeating substring
+    - return the substring
+    - delete at most k chars
+- binary tree vertical order traversal
+- diameter of binary tree
+- binary treeright side view
+
