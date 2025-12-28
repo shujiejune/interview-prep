@@ -22,7 +22,7 @@ static class Board {
 		return i >= 0 && i < 2 && j >= 0 && j < 4;
 	}
 
-	public int[] find0() {
+	public int[] findZero() {
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < 4; j++) {
 				if (state[i][j] == 0) {
@@ -54,6 +54,52 @@ static class Board {
 		}
 		return true;
 	}
+
+	@Override
+	public int hashCode() {
+		int code = 0;
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j< 4; j++) {
+				code = code * 10 + state[i][j];
+			}
+		}
+		return code;
+	}
+
+	@Override
+	public Board clone() {
+		Board c = new Board();
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < 4; j++) {
+				c.state[i][j] = state[i][j];
+			}
+		}
+		return c;
+	}
 }
 
-public int numOfSteps(int[] values)
+public int numOfSteps(int[] values) {
+	Queue<Board> q = new ArrayDeque<>();
+	Map<Board, Integer> boardSteps = new HashMap<>();
+	Board final = new Board(new int[]{0, 1, 2, 3, 4, 5, 6, 7});
+	q.offerFirst(final);
+	boardSteps.put(final, 0);
+	while (!q.isEmpty()) {
+		Board curr = q.poll();
+		int[] coord0 = curr.findZero();
+		for (int[] d : directions) {
+			int x = coord0[0] + d[0];
+			int y = coord0[1] + d[1];
+			if (curr.isValid(x, y)) {
+				curr.swap(coord0[0], coord0[1], x, y);
+				if (!boardSteps.containsKey(curr)) {
+					Board next = curr.clone();
+					q.offer(next);
+					boardSteps.put(next, boardSteps.get(curr) + 1);
+				}
+				curr.swap(coord0[0], coord0[1], x, y);
+			}
+		}
+	}
+	return boardSteps.getOrDefault(new Board(values), -1);
+}
