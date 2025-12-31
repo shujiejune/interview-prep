@@ -17,9 +17,9 @@ public class solution {
 		Queue<String> q = new ArrayDeque<>();
 		Map<String, Integer> wordSteps = new HashMap<>();
 		q.offerFirst(beginWord);
-		wordSteps.put(beginWord, 0);
+		wordSteps.put(beginWord, 1);
 		while (!q.isEmpty()) {
-			String curr = q.poll();
+			String curr = q.pollFirst();
 			int currStep = wordSteps.get(curr);
 			List<String> candidates = getNextWords(curr, dict);
 			for (String next : candidates) {
@@ -52,3 +52,5 @@ public class solution {
 		return ans;
 	}
 }
+
+/* TC: O()
