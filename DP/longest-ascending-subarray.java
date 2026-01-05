@@ -89,3 +89,51 @@ public class Solution {
 		return sum;
 	}
 }
+
+
+/* Given an array of 2D coordinates of points (all the coordinates are integers), 
+ * find the largest number of points that can form a set such that any pair of points 
+ * in the set can form a line with positive slope. Return the size of such a maximal set.
+ *
+ * Assumptions:
+ * The given array is not null
+ * Note: if there does not even exist 2 points can form a line with positive slope, 
+ * should return 0.
+ */
+public class Solution {
+	class Point {
+		public int x;
+		public int y;
+		
+		public Point(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+	}
+
+	public int largest(Point[] points) {
+		if (points.length < 2) {
+			return 0;
+		}
+		Arrays.sort(points, new Comparator<Point>(){
+			@Override
+			public int compare(Point p1, Point p2) {
+				return p1.x.compareTo(p2.x);
+			}
+		});
+		int globalMax = 0;
+		int n = points.length;
+		// dp[i]: size of largest y-ascending subsequences of points[:i]
+		int[] dp = new int[n];
+		Arrays.fill(dp, 1);
+		for (int i = 1; i < n; i++) {
+			for (int j = 0; j < i; j++) {
+				if (points[j].y < points[i].y) {
+					dp[i] = Math.max(dp[i], dp[j] + 1);
+				}
+			}
+			globalMax = Math.max(globalMax, dp[i]);
+		}
+		return globalMax > 1 ? globalMax : 0;
+	}
+}
