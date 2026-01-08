@@ -7,22 +7,11 @@
 public class Solution {
 	public int[] countArray(int[] array) {
 		int n = array.length;
-		int[] nearestSmaller = new int[n];
-		Arrays.fill(nearestSmaller, -1);
-		Deque<Integer> stack = new ArrayDeque<>();
-		for (int i = 0; i < n; i++) {
-			while (!stack.isEmpty() && array[stack.peekLast()] > array[i]) {
-				nearestSmaller[stack.pollLast()] = i;
-			}
-			stack.offerLast(i);
-		}
 		int[] ans = new int[n];
+		Map<Integer, Integer> quickSortIndex = new HashMap<>();
+		int pivot = n - 1;
 		for (int i = n - 1; i >= 0; i--) {
-			int nsIdx = nearestSmaller[i];
-			if (nsIdx != -1) {
-				ans[i] = ans[nsIdx] + 1;
-			}
+			if (arr)
 		}
-		return ans;
 	}
 }
