@@ -61,5 +61,5 @@ Real Interview Questions:
     - delete at most k chars
 - binary tree vertical order traversal
 - diameter of binary tree
-- binary treeright side view
+- binary tree right side view
 
