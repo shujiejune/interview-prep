@@ -4,37 +4,33 @@ class Solution {
 			return "";
 		}
 		Map<Character, Integer> freq = new HashMap<>();
+		Map<Character, Integer> window = new HashMap<>();
 		for (char c : t.toCharArray()) {
 			freq.put(c, freq.getOrDefault(c, 0) + 1);
 		}
 		int i = 0, j = 0, count = 0;
-		int[] bounds = new int[2]{-1, -1};
-		int minLen = s.length();
+		int[] bounds = new int[]{-1, -1};
+		int minLen = s.length() + 1;
 		while (j < s.length()) {
 			char c = s.charAt(j);
-			if (freq.containsKey(c)) {
-				freq.put(c, freq.get(c) - 1);
+			window.put(c, window.getOrDefault(c, 0) + 1);
+			if (freq.containsKey(c) && window.get(c) == freq.get(c)) {
 				count++;
-				while (i <= j && freq.get(c) < 0) {
-					char left = s.charAt(i);
-					if (freq.containsKey(left)) {
-						if (freq.get(left) >= 0) { break; }
-						freq.put(left, freq.get(left) + 1);
-					}
-					i++;
-				}
-				while (i <= j && !freq.containsKey(s.charAt(i))) {
-					i++;
-				}
 			}
 			j++;
-			if (count == t.length()) {
+			while (count == freq.size()) {
 				int len = j - i;
 				if (len < minLen) {
 					minLen = len;
 					bounds[0] = i;
 					bounds[1] = j;
 				}
+				char left = s.charAt(i);
+				window.put(left, window.get(left) - 1);
+				if (freq.containsKey(left) && window.get(left) < freq.get(left)) {
+					count--;
+				}
+				i++;
 			}
 		}
 		if (bounds[0] == -1) {
