@@ -45,9 +45,9 @@ class Solution {
 		while (l <= r) {
 			int i = (l + r) / 2;
 			int j = half - i;
-			int Aleft = i > 0 ? A[i - 1] : Integer.MAX_VALUE;
+			int Aleft = i > 0 ? A[i - 1] : Integer.MIN_VALUE;
 			int Aright = i < A.length ? A[i] : Integer.MAX_VALUE;
-			int Bleft = j > 0 ? B[j - 1] : Integer.MAX_VALUE;
+			int Bleft = j > 0 ? B[j - 1] : Integer.MIN_VALUE;
 			int Bright = j < B.length ? B[j] : Integer.MAX_VALUE;
 			if (Aleft <= Bright && Bleft <= Aright) {
 				if (total % 2 != 0) {
