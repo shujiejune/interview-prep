@@ -1,7 +1,17 @@
 class Twitter {
+	public class TweetNode {
+		int id;
+		TweetNode next;
+
+		public TweetNode(int id, TweetNode next) {
+			this.id = id;
+			this.next = next;
+		}
+	}
+
 	int tweetInd;
 	Map<Integer, Integer> tweetMap;  // (tweetId, tweetIndex)
-	Map<Integer, List<Integer>> userMap;
+	Map<Integer, List<TweetNode>> userMap;
 	Map<Integer, Set<Integer>> followMap;
 
 	public Twitter() {
@@ -16,24 +26,28 @@ class Twitter {
 		if (!userMap.containsKey(userId)) {
 			userMap.put(userId, new LinkedList<>());
 		}
-		userMap.get(userId).add(tweetId);
+		userMap.get(userId).add(new TweetNode(tweetId, null));
 		tweetInd++;
 	}
 
 	public List<Integer> getNewsFeed(int userId) {
 		List<Integer> feed = new ArrayList<>();
-		Set<Integer> users = followMap.get(userId);
-		users.add(userId);
-		PriorityQueue<Integer> minHeap = new PriorityQueue<>(new Comparator<>(){
-			@Override
-			public int compare(int a, int b) {
-				return tweetMap.get(a) - tweetMap.get(b);
+		Set<Integer> followees = new HashSet<>();
+		if (!followMap.containsKey(userId)) {
+			followMap.put(userId, followees);
+		}
+		followees = followMap.get(userId);
+		followees.add(userId);
+		PriorityQueue<TweetNode> maxHeap = new PriorityQueue<>((a, b) -> tweetMap.get(b.id) - tweetMap.get(a.id));
+		for (int f : followees) {
+			maxHeap.offer(userMap.get(f).getFirst());
+		}
+		while (!maxHeap.isEmpty() && feed.size() < 10) {
+			TweetNode currTweet = maxHeap.poll();
+			feed.add(currTweet.id);
+			if (currTweet.next != null) {
+				maxHeap.offer(currTweet.next);
 			}
-		});
-		while (feed.size() < 10) {
-			int currTweet = minHeap.poll();
-			feed.add(currTweet);
-			minHeap.offer(currTweet.next());
 		}
 		return feed;
 	}
